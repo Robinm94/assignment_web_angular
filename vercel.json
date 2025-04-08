@@ -1,0 +1,7 @@
+{
+    "outputDirectory": "dist/assignment9_angular/browser",
+    "rewrites": [
+      { "source": "/(.*)", "destination": "/index.html" }
+    ]
+  }
+  
