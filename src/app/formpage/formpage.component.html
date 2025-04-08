@@ -1,0 +1,73 @@
+<div class="container px-5 py-14 mx-auto">
+  <h1>User Registration Form</h1>
+
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    Name:
+    <input type="text" formControlName="name" /><br />
+    @if(userForm.get('name')?.invalid && userForm.get('name')?.touched){
+    <span>Name is required</span><br />
+    } @if(userForm.controls.name.errors?.['minlength']){
+    <span>Name must be at least 2 characters</span><br />
+    } @if(userForm.controls.name.errors?.['pattern']){
+    <span>Name must contain only letters</span><br />
+    }
+
+    <br />
+    Email:
+    <input type="email" formControlName="email" /><br />
+    @if(userForm.get('email')?.invalid && userForm.get('email')?.touched){
+    <span>Email is required</span><br />
+    } @if(userForm.controls.email.errors?.['email']){
+    <span>Please enter a valid email address</span><br />
+    }
+
+    <br />
+    Phone:
+    <input
+      type="tel"
+      formControlName="phone"
+      placeholder="10 digit number"
+    /><br />
+    @if(userForm.get('phone')?.invalid && userForm.get('phone')?.touched){
+    <span>Phone number is required</span><br />
+    } @if(userForm.controls.phone.errors?.['pattern']){
+    <span>Please enter a valid 10-digit phone number</span><br />
+    }
+
+    <br />
+    <input
+      class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded disabled:border-red-500"
+      type="Submit"
+      value="Submit"
+      [disabled]="!userForm.valid"
+    /><br />
+  </form>
+
+  @if(submitted && userForm.valid){
+  <div class="success-message">
+    <p>Form submitted successfully!</p>
+    <pre>{{ userForm.value | json }}</pre>
+  </div>
+  }
+
+  <!-- Display all users -->
+  <div class="mt-8">
+    <h2 class="text-xl font-bold mb-4">Registered Users</h2>
+
+    @if(users.length === 0) {
+    <p>No users registered yet.</p>
+    } @else {
+    <ul class="divide-y divide-gray-200">
+      @for(user of users; track user.email) {
+      <li class="py-3">
+        <div class="flex flex-col">
+          <div><strong>Name:</strong> {{ user.name }}</div>
+          <div><strong>Email:</strong> {{ user.email }}</div>
+          <div><strong>Phone:</strong> {{ user.phone }}</div>
+        </div>
+      </li>
+      }
+    </ul>
+    }
+  </div>
+</div>
